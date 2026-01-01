@@ -2,7 +2,7 @@ name: CI - QMK Build Check (PR)
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
     paths:
       - "users/**"
       - "keyboards/**"
