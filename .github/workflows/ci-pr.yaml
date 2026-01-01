@@ -1,0 +1,24 @@
+name: CI - QMK Build Check (PR)
+
+on:
+  pull_request:
+    branches: [ master ]
+    paths:
+      - "users/**"
+      - "keyboards/**"
+      - ".github/workflows/**"
+      - "qmk.json"
+      - "**/*.mk"
+      - "**/*.c"
+      - "**/*.h"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: QMK Userspace Build (PR)
+    uses: qmk/.github/.github/workflows/qmk_userspace_build.yml@main
+    with:
+      qmk_repo: qmk/qmk_firmware
+      qmk_ref: master
