@@ -51,42 +51,43 @@ enum tap_dance {
 #define TD_FN_SYMBOL TD(TD_SYMBOL)
 
 static bool type_os_key_events(uint8_t keycode, bool is_pressed);
-void td_lsft_finished(qk_tap_dance_state_t *state, void *user_data);
-void td_lsft_reset(qk_tap_dance_state_t *state, void *user_data);
+void td_lsft_finished(tap_dance_state_t *state, void *user_data);
+void td_lsft_reset(tap_dance_state_t *state, void *user_data);
 
-qk_tap_dance_action_t tap_dance_actions[] = {
+tap_dance_action_t tap_dance_actions[] = {
   [TD_SYMBOL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_lsft_finished, td_lsft_reset)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-/* Qwerty
+ /* Qwerty
  * ,-----------------------------------------------------------------------------------.
- * | Esc  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
+ * | Esc  |  Q   |  W   |  E   |  R   |  T   |  Y   |  U   |  I   |  O   |  P   | Bksp |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Tab  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  "   |
+ * | Tab  |  A   |  S   |  D   |  F   |  G   |  H   |  J   |  K   |  L   |  ;   |  '   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Caps |   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
+ * | Caps |  Z   |  X   |  C   |  V   |  B   |  N   |  M   |  ,   |  .   |  /   |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Sft  | GUI  | Alt  | Ctrl | NUMB |    Space    | MOB  | Ctrl | Alt  | Sys  | Sft  |
+ * | LSft | LAlt | GUI  | Ctrl |Sym/Fn|    Space    |MOBIL |RCtrl |RAlt  |RGUI  |RSft  |
  * `-----------------------------------------------------------------------------------'
  */
 [_QWERTY] = LAYOUT_planck_grid(
     KC_ESC,  KC_Q,    KC_W,    KC_E,   KC_R,         KC_T,   KC_Y,   KC_U,     KC_I,     KC_O,    KC_P,    KC_BSPC,
     KC_TAB,  KC_A,    KC_S,    KC_D,   KC_F,         KC_G,   KC_H,   KC_J,     KC_K,     KC_L,    KC_SCLN, KC_QUOT,
     KC_CAPS, KC_Z,    KC_X,    KC_C,   KC_V,         KC_B,   KC_N,   KC_M,     KC_COMM,  KC_DOT,  KC_SLSH, KC_ENT,
-    KC_LSFT, KC_LALT, OS_GUI,  OS_CTL, TD_FN_SYMBOL, KC_SPC, KC_SPC, MOBILITY, KC_RCTRL, KC_RALT, KC_RGUI, KC_RSFT
+    KC_LSFT, KC_LALT, OS_GUI,  OS_CTL, TD_FN_SYMBOL, KC_SPC, KC_SPC, MOBILITY, KC_RCTL, KC_RALT, KC_RGUI, KC_RSFT
 ),
+
 
 /* Mobility
  * ,-----------------------------------------------------------------------------------.
- * | Esc  |   Q  | VolD |  Up  | VolU |   T  |   Y  | Home |  Up  |  End |   P  | Bksp |
+ * |      |      |VolD  | Up   |VolU  |      |      |Home  | Up   | End  |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Tab  |   A  | Left | Down | Rght |   (  |   )  | Left | Down | Right|   ;  |  "   |
+ * |      |      |Left  |Down  |Rght  |      |      |Left  |Down  |Right |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Caps |   Z  |   X  |   C  |   [  |   {  |   }  |   ]  |  Del |   .  |   /  |Enter |
+ * |      |      |Mute  |      |      |      |      |      |      | Del  | Ins  |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Sft  | GUI  | Ctrl | Alt  |   ▽  |    Space    | MOB  | Alt  | Sft  | Ctrl | SYMB |
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
 [_MOBILITY] = LAYOUT_planck_grid(
@@ -98,13 +99,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Symbols
  * ,-----------------------------------------------------------------------------------.
- * | Esc  |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |  _-  |  +=  | Bksp |
+ * |Grv   |  !   |  @   |  #   |  $   |      |  &   |  *   |  (   |  )   |  -   |Bspc  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Tab  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |  `~  |   |\ |  "   |
+ * |      |      |      |      |      |  %   |  ^   |  {   |  }   |  [   |  ]   | \    |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Caps |   Z  |   X  |   C  |   V  |   B  |   N  |   M  |  DEL |   .  |   /  |Enter |
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Sft  | GUI  | Ctrl | Alt  | NUMB |    Space    | MOB  | Alt  | Sft  | Ctrl |   ▽  |
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
 [_SYMBOLS] = LAYOUT_planck_grid(
@@ -116,19 +117,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Numbers / Functions
  * ,-----------------------------------------------------------------------------------.
- * | Esc  |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   1  |   2  |   3  |   0  | Bksp |
+ * |      | F1  | F2   | F3    | F4   |      |  1   |  2   |  3   |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Tab  |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |   4  |   5  |   6  |   ;  |  "   |
+ * |      | F5  | F6   | F7    | F8   |      |  4   |  5   |  6   |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Caps |   Z  |   X  |   C  |   V  |   [  |   ]  |   7  |   8  |   9  |   /  |Enter |
+ * |      | F9  | F10  | F11   | F12  |  0   |  7   |  8   |  9   |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Sft  | GUI  | Ctrl | Alt  | NUMB |    Space    |   ▽  | Alt  |  Sft | Ctrl | SYMB |
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
 [_NUMBERS] = LAYOUT_planck_grid(
-    _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   _______, _______, KC_1,    KC_2,    KC_3,    KC_3,    _______,
-    _______, KC_F5,   KC_F6,   KC_F7,   KC_F8,   _______, _______, KC_4,    KC_5,    KC_6,    KC_6,    _______,
-    _______, KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, KC_0,    KC_7,    KC_8,    KC_9,    KC_9,    _______,
+    _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   _______, KC_1,    KC_2,    KC_3,    _______, _______, _______,
+    _______, KC_F5,   KC_F6,   KC_F7,   KC_F8,   _______, KC_4,    KC_5,    KC_6,    _______, _______, _______,
+    _______, KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_0,    KC_7,    KC_8,    KC_9,    _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
 
@@ -167,7 +168,7 @@ uint8_t keycode_os_gui = KC_LGUI;
 uint8_t keycode_os_ctl = KC_LCTL;
 
 
-void td_lsft_finished(qk_tap_dance_state_t *state, void *user_data) {
+void td_lsft_finished(tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     layer_on(2);
   }
@@ -176,7 +177,7 @@ void td_lsft_finished(qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void td_lsft_reset(qk_tap_dance_state_t *state, void *user_data) {
+void td_lsft_reset(tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     layer_off(2);
   }
